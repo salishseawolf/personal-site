@@ -36,3 +36,14 @@ test("glossary terms in the résumé body are hoverable", async ({ page }) => {
   const popup = page.locator(".glossary-popup").first();
   await expect(popup.locator(".glossary-popup__body")).not.toBeEmpty();
 });
+
+test("Selected Projects links the flagship repo and is anchored from Experience", async ({
+  page,
+}) => {
+  await page.goto("/resume");
+  await expect(page.locator("h2#selected-projects")).toBeVisible();
+  await expect(page.locator('a[href="#selected-projects"]')).toHaveCount(1);
+  await expect(
+    page.locator('a[href="https://github.com/salishseawolf/k3s-service-cluster"]'),
+  ).not.toHaveCount(0);
+});

@@ -46,7 +46,8 @@ holding to strict NIST 800-171 / CMMC 2.0 compliance.
     Guacamole, Bind9, Cloudflare, systemd, Linux and CLI administration
 - **Automation & Infrastructure as Code:** Ansible, Ansible Molecule, Terraform
     / OpenTofu, Packer, cloud-init, mise (mise-en-place), GitOps (Argo CD),
-    CI/CD pipelines (Gitea Actions), Playwright end-to-end testing
+    CI/CD pipelines (GitHub Actions, Gitea Actions), Renovate, Playwright
+    end-to-end testing
 - **Observability:** Grafana, Loki, Graylog, Prometheus, Grafana Alloy,
     InfluxDB, Gatus health monitoring, ntfy alerting
 - **Identity, Endpoint & PKI:** Active Directory, Microsoft Intune, Authentik
@@ -82,7 +83,8 @@ Washington (Remote) · May 2026 to Present
   comparisons.
 - Design and operate a production K3s / Argo CD GitOps cluster on Hetzner under
   a single-operator model: Authentik SSO with enforced MFA; step-ca private PKI;
-  CloudNativePG; and a Grafana / Loki / Prometheus observability stack.
+  CloudNativePG; and a Grafana / Loki / Prometheus observability stack. Source
+  is public; see [Selected Projects](#selected-projects).
 
 ### Software & Infrastructure Architect, Silicon Technologies Inc.
 
@@ -118,6 +120,35 @@ operations across both software and hardware design.
   agencies (MDA, U.S. Air/Space Force), enterprise partners (Intel, Sandia,
   Globalfoundries) and co-presented at industry conferences to drive product
   adoption.
+
+## Selected Projects
+
+### k3s-service-cluster
+
+[github.com/salishseawolf/k3s-service-cluster](https://github.com/salishseawolf/k3s-service-cluster)
+
+*Hetzner Cloud, OpenTofu, Ansible, K3s, Argo CD, Traefik, Authentik,
+CloudNativePG, SeaweedFS, VolSync, 1Password Operator, Prometheus, Loki,
+Grafana*
+
+A three-node, highly available K3s cluster that runs Salish Sea Wolf LLC's
+services (source hosting and CI, SSO, document management, time tracking,
+analytics, and this site), built and operated entirely as code.
+
+- **GitOps end to end:** OpenTofu provisions servers, network, load balancer,
+  and DNS; Ansible bootstraps K3s once; Argo CD reconciles every component
+  from git, with no manual `kubectl apply` step.
+- **Gated rollout:** five Argo CD sync waves, with a storage canary that must
+  mount a real SeaweedFS volume before any application starts.
+- **Security:** secrets committed only as 1Password references; Authentik SSO
+  with forward-auth on every private route; Pod Security Admission
+  `restricted`, default-deny NetworkPolicies, and etcd encryption at rest.
+- **Resilience:** three-instance CloudNativePG with daily backups and hourly
+  VolSync / restic volume backups to Backblaze B2, each volume under its own
+  scoped key.
+- **Operations:** CI renders and lints every Helm chart (kubeconform,
+  kube-linter), validates OpenTofu and Ansible, and scans history with
+  gitleaks.
 
 ## Education
 

@@ -176,7 +176,9 @@ export const stackCategories: StackCategory[] = [
         items: [
           { label: "mise", glossaryId: "mise" },
           { label: "Argo CD", glossaryId: "argo-cd" },
+          { label: "GitHub Actions" },
           { label: "Gitea Actions" },
+          { label: "Renovate" },
         ],
       },
       {

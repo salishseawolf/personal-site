@@ -7,7 +7,7 @@ const latestPosts = (await getCollection("blog"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
-const focus = [
+const focus: { k: string; d: string; href?: string }[] = [
   {
     k: "Software",
     d: "System architecture, Python, Rust, esoteric LISP, cross-platform tested and pushed through secure CI/CD Action workflows.",
@@ -19,10 +19,36 @@ const focus = [
   {
     k: "Cloud & On-Prem",
     d: "Greenfield Kubernetes / K3s buildouts, Maintained as Infrastructure as Code, GitOps with Argo CD, and hybrid cloud + on-premise architecture on Hetzner/AWS/Azure and Proxmox.",
+    href: "#built",
   },
   {
     k: "Security & Compliance",
     d: "NIST 800-171 and CMMC 2.0 programs, 1Password secret management, cluster hardening, private PKI with step-ca, and Authentik SSO with enforced MFA.",
+  },
+];
+
+const flagshipRepo = "https://github.com/salishseawolf/k3s-service-cluster";
+
+const flagshipPoints = [
+  {
+    k: "GitOps end to end",
+    d: "OpenTofu builds the servers, network, load balancer, and DNS; Ansible bootstraps K3s once; Argo CD reconciles everything after that. There is no kubectl apply step.",
+  },
+  {
+    k: "Gated rollout",
+    d: "Five Argo CD sync waves, with a canary that must mount a real SeaweedFS volume before any app is allowed to start.",
+  },
+  {
+    k: "Secrets never in git",
+    d: "Only op:// references are committed. The 1Password Operator projects secrets into the cluster at runtime.",
+  },
+  {
+    k: "Defense in depth",
+    d: "Authentik SSO with forward-auth on every private route, Pod Security Admission restricted, default-deny NetworkPolicies, and etcd encryption at rest.",
+  },
+  {
+    k: "Backups with blast-radius limits",
+    d: "Postgres and app volumes back up to Backblaze B2, each volume with its own scoped key, so one leaked key exposes one service.",
   },
 ];
 
@@ -102,12 +128,57 @@ const elsewhere = [
             {
               focus.map((item) => (
                 <li class="card">
-                  <h3 class="card__title">{item.k}</h3>
+                  <h3 class="card__title">
+                    {item.href ? <a href={item.href}>{item.k}</a> : item.k}
+                  </h3>
                   <p class="card__body">{item.d}</p>
                 </li>
               ))
             }
           </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="built" aria-labelledby="built-label">
+    <div class="wrap">
+      <div class="bi-grid">
+        <h2 class="bi-label" id="built-label">Built</h2>
+        <div class="bi-content">
+          <article class="flagship">
+            <p class="flagship__eyebrow">Flagship project</p>
+            <h3 class="flagship__title">
+              <a href={flagshipRepo} rel="noopener" target="_blank"
+                >k3s-service-cluster</a
+              >
+            </h3>
+            <p class="flagship__lede">
+              A three-node, highly available K3s cluster on Hetzner Cloud that
+              runs Salish Sea Wolf LLC's services: source hosting and CI,
+              single sign-on, document management, time tracking, analytics,
+              and this site. Everything from the servers to the dashboards is
+              code, and a merge to <code>main</code> is a deploy.
+            </p>
+            <ul class="flagship__points">
+              {
+                flagshipPoints.map((point) => (
+                  <li>
+                    <strong>{point.k}.</strong> {point.d}
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="flagship__hook">You're reading this page through it.</p>
+            <div class="flagship__actions">
+              <a
+                class="button button--primary"
+                href={flagshipRepo}
+                rel="noopener"
+                target="_blank">View the repo</a
+              >
+            </div>
+          </article>
         </div>
       </div>
     </div>
@@ -300,6 +371,78 @@ const elsewhere = [
     margin: 0;
     color: var(--text-muted);
     font-size: 0.95rem;
+  }
+
+  .card__title a {
+    color: inherit;
+  }
+
+  .card__title a::after {
+    content: " \2193";
+    color: var(--accent);
+  }
+
+  /* The focus card's "#built" link would otherwise land the section's top
+     edge underneath the sticky site header. */
+  #built {
+    scroll-margin-top: calc(4rem + 1px);
+  }
+
+  .flagship {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--bg-raised);
+    max-width: 52rem;
+  }
+
+  .flagship__eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  .flagship__title {
+    margin: 0.35rem 0 0.75rem;
+    font-family: var(--font-mono);
+    font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem);
+    overflow-wrap: anywhere;
+  }
+
+  .flagship__title a {
+    color: var(--heading);
+  }
+
+  .flagship__lede {
+    margin: 0 0 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .flagship__points {
+    margin: 0 0 1.25rem;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.6rem;
+    color: var(--text-muted);
+  }
+
+  .flagship__points strong {
+    color: var(--text);
+  }
+
+  .flagship__hook {
+    margin: 0 0 1.5rem;
+    font-style: italic;
+    color: var(--heading);
+  }
+
+  .flagship__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
   }
 
   @media (max-width: 40rem) {

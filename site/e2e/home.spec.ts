@@ -46,3 +46,23 @@ test('"Blog" section previews the latest post and links to the full directory', 
   const seeMore = page.getByRole("link", { name: "See more" });
   await expect(seeMore).toHaveAttribute("href", "/blog/");
 });
+
+test('"Built" section features the flagship repo and is linked from its focus card', async ({
+  page,
+}) => {
+  const built = page.locator("section#built");
+  await expect(built.getByRole("heading", { level: 2 })).toBeVisible();
+
+  const repo = /^https:\/\/github\.com\/salishseawolf\/k3s-service-cluster(\/|$)/;
+  const hrefs = await built
+    .getByRole("link")
+    .evaluateAll((els) => els.map((el) => el.getAttribute("href")));
+  expect(hrefs.length).toBeGreaterThan(0);
+  expect(hrefs.every((h) => repo.test(h ?? ""))).toBe(true);
+
+  const cardLink = page.locator('.card__title a[href="#built"]');
+  await expect(cardLink).toHaveCount(1);
+  await cardLink.click();
+  await expect(page).toHaveURL(/#built$/);
+  await expect(built).toBeInViewport();
+});

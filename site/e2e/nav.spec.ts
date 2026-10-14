@@ -53,3 +53,12 @@ test("skip link jumps to main content", async ({ page }) => {
   await expect(skip).toBeFocused();
   await expect(skip).toHaveAttribute("href", "#main");
 });
+
+test("footer credits the cluster the site is hosted on", async ({ page }) => {
+  await page.goto("/");
+  await expect(
+    page.locator(
+      '.site-footer a[href="https://github.com/salishseawolf/k3s-service-cluster"]',
+    ),
+  ).toHaveCount(1);
+});

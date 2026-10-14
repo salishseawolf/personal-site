@@ -62,7 +62,7 @@ per-entry decision rotfilter needed:
 
 ## The experiment: rotfilter
 
-[rotfilter](https://github.com/MightBeAWolf/rotfilter) walks a directory tree
+[rotfilter](https://github.com/salishseawolf/rotfilter) walks a directory tree
 and classifies every file, directory, and git project as Redundant,
 Obsolete, or Trivial, using only filesystem and git metadata (`stat()`,
 ACLs, xattrs, git status/log), never file contents. Laya sits in the middle

@@ -14,7 +14,7 @@ updated: September 2026
 
 Greater Seattle Area · 801-746-9685 ·
 [hire.me@wolfhouse.me](mailto:hire.me@wolfhouse.me) ·
-[GitHub](https://github.com/MightBeAWolf) ·
+[GitHub](https://github.com/salishseawolf) ·
 [LinkedIn](https://www.linkedin.com/in/thomas-wolf-207773227/)
 
 ---

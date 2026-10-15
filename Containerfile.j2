@@ -17,6 +17,7 @@ COPY ./nginx/absolute-redirect-off.conf /etc/nginx/conf.d/absolute-redirect-off.
 COPY ./nginx/real-ip.conf /etc/nginx/conf.d/real-ip.conf
 COPY ./nginx/hardening.conf /etc/nginx/conf.d/hardening.conf
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/gzip.conf /etc/nginx/conf.d/gzip.conf
 EXPOSE 80
 {% else %}
 RUN npm install && \

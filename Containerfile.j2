@@ -14,6 +14,8 @@ RUN npm ci && \
 FROM docker.io/library/nginx:1.30.4-trixie
 COPY --from=build /site/dist /usr/share/nginx/html
 COPY ./nginx/absolute-redirect-off.conf /etc/nginx/conf.d/absolute-redirect-off.conf
+COPY ./nginx/real-ip.conf /etc/nginx/conf.d/real-ip.conf
+COPY ./nginx/hardening.conf /etc/nginx/conf.d/hardening.conf
 EXPOSE 80
 {% else %}
 RUN npm install && \
